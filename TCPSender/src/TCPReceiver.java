@@ -6,19 +6,18 @@ class TCPReceiver{
 			ServerSocket ss = new ServerSocket(4322);
 			ss.setSoTimeout(5000);
 			System.out.println(ss.getSoTimeout()  + " milliseconds until timeout!");
-			for(;;){
-				try{
+			try {
+				for(;;){
 					Socket client = ss.accept();
 					BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String line;
 					while((line = in.readLine()) != null)
 						System.out.println(line+" received");
 					client.close();
-					ss.close();
-				}catch(SocketTimeoutException s){System.out.println("Socket timed out!");
-				break;}
-				catch(Exception e){System.out.println("error: "+e.getMessage());}
-			}
+					//if you close it only one Sender will send stuff
+					//ss.close();
+				}
+			}catch(Exception e){System.out.println("error: "+e.getMessage());}
 		}catch(Exception e){System.out.println("error "+e);}
 	}
 }
