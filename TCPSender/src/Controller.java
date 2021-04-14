@@ -22,6 +22,7 @@ public class Controller {
 		
 		for(;;){
 			Socket client = ss.accept();
+			System.out.println("client connected on port " + client.getPort());
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String line;
 			while((line = in.readLine()) != null)
