@@ -13,9 +13,7 @@ public static void main(String[] args) throws IOException {
 		int cPort = Integer.parseInt(args[1]);
 		int timeout = Integer.parseInt(args[2]);
 		String folder = (args[3]);
-		
-		System.out.println(port + " " + cPort + " " + timeout + " " + folder);
-		
+				
 		ServerSocket ss = new ServerSocket(port);
 		//ss.setSoTimeout(timeout);
 		Socket socket = new Socket(InetAddress.getLocalHost(), cPort);

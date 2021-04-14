@@ -17,12 +17,12 @@ public class Controller {
 		//System.out.println(port + " " + repFactor + " " + timeout + " " + rebalancePeriod);
 		
 		ServerSocket ss = new ServerSocket(port);
-		//ss.setSoTimeout(timeout);
-		//System.out.println(ss.getSoTimeout()+" milliseconds until timeout!");
+		ss.setSoTimeout(timeout);
+		System.out.println(ss.getSoTimeout()+" milliseconds until timeout!");
 		
 		for(;;){
 			Socket client = ss.accept();
-			System.out.println("client connected on port " + client.getPort());
+			System.out.println(client.getClass() + " connected on port " + client.getPort());
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String line;
 			while((line = in.readLine()) != null)
