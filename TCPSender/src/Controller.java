@@ -10,6 +10,8 @@ public class Controller {
 		int repFactor = Integer.parseInt(args[1]);
 		int timeout = Integer.parseInt(args[2]);
 		int rebalancePeriod = Integer.parseInt(args[3]);
+		int connectedDStores = 0;
+		DataInputStream in = null;
 		
 		LogWriter log = new LogWriter();
 		log.write();
@@ -22,12 +24,18 @@ public class Controller {
 		
 		for(;;){
 			Socket client = ss.accept();
+			connectedDStores++;
+			System.out.println(connectedDStores + " DStores connected");
 			System.out.println(client.getClass() + " connected on port " + client.getPort());
-			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			String line;
-			while((line = in.readLine()) != null)
-				System.out.println(line+" received");
-			client.close();
+			
+			in = new DataInputStream(new BufferedInputStream(client.getInputStream()));
+			String line = in.readUTF();
+			if(line.equals("disconnect")) {
+				client.close();
+				connectedDStores--;
+				System.out.println(connectedDStores + " DStores connected");
+			}
+			
 			//if you close it only one Sender will send stuff
 			//ss.close();
 		}

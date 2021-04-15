@@ -1,3 +1,4 @@
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,10 +14,11 @@ public static void main(String[] args) throws IOException {
 		int cPort = Integer.parseInt(args[1]);
 		int timeout = Integer.parseInt(args[2]);
 		String folder = (args[3]);
+		DataOutputStream out = null; 
 				
 		ServerSocket ss = new ServerSocket(port);
-		//ss.setSoTimeout(timeout);
 		Socket socket = new Socket(InetAddress.getLocalHost(), cPort);
+		socket.setSoTimeout(5000);
 		System.out.println("connected on port " + socket.getPort());
 		File file = new File(System.getProperty("user.dir") + "/" + folder);
 		boolean bool = file.mkdir();
@@ -24,17 +26,15 @@ public static void main(String[] args) throws IOException {
 			System.out.println(folder + " created!");
 		else
 			System.out.println(folder + " might already exist.");
-		PrintWriter out = new PrintWriter(socket.getOutputStream());
-		
-		for(int i=0;i<10;i++) {
-			out.println("TCP message "+i);
-			out.flush();
-			System.out.println("TCP message "+i+" sent");
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				System.out.println("error: "+e);
-			}
+		try {
+			Thread.sleep(timeout);
+			out = new DataOutputStream(socket.getOutputStream());
+			out.writeUTF("disconnect");
+			socket.close();
+			System.out.println("Socket closed.");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
 	}
 }
