@@ -14,9 +14,6 @@ public class Controller {
 		DataInputStream in = null;
 		DataOutputStream out = null;
 
-		LogWriter log = new LogWriter();
-		log.write();
-
 		//System.out.println(port + " " + repFactor + " " + timeout + " " + rebalancePeriod);
 
 		ServerSocket ss = new ServerSocket(port);
